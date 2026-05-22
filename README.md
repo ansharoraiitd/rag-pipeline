@@ -9,7 +9,7 @@ and generates accurate, grounded answers.
 
 ## Progress
 - [x] Day 1: Embeddings — semantic search foundation
-- [ ] Day 2: ChromaDB — storing and searching embeddings
+- [x] Day 2: ChromaDB — storing and searching embeddings
 - [ ] Day 3: Chunking — splitting documents intelligently
 - [ ] Day 4: Full RAG chain — retrieval + generation
 - [ ] Day 5: Chat with documents — complete app
