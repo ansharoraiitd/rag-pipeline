@@ -99,40 +99,40 @@ print("\nNotice: with overlap, each chunk shares some text with the next.")
 print("This means context is never completely cut off at a boundary.")
 
 #SECTION 3: chunk documents and store in ChromaDB
-#This is what happens in a real RAG pipeline.
-# document → split into chunks → embed each chunk → store in ChromaDB
-print("\n" + "=" * 50)
+# This is what happens in a real RAG pipeline.
+# document -> split into chunks -> embed each chunk -> store in ChromaDB
+print("\n" + "="*70)
 print("SECTION 3: Chunk real documents and store in ChromaDB")
-print("=" * 50)
+print("="*70)
 
-# Simulate real documents (in week 5 these will be actual PDFs)
+#Simulate real documents (later we will use actual PDFs)
 raw_documents = [
     Document(
         page_content="""LangGraph is a library built on top of LangChain for building
-stateful, multi-actor applications with LLMs. It extends LangChain's
-capabilities by providing first-class support for cyclic computation,
-which is essential for most agentic architectures. LangGraph models
-workflows as graphs where nodes represent computation steps and edges
-represent the flow of data between steps. The state flows through
-every node, enabling each step to read what happened before.""",
+        stateful, multi-actor applications with LLMs. It extends LangChain's
+        capabilities by providing first-class support for cyclic computation,
+        which is essential for most agentic architectures. LangGraph models
+        workflows as graphs where nodes represent computation steps and edges
+        represent the flow of data between steps. The state flows through
+        every node, enabling each step to read what happened before.""",
         metadata={"source": "langgraph_guide", "page": 1}
     ),
     Document(
         page_content="""RAG (Retrieval Augmented Generation) is a technique that improves
-LLM responses by connecting them to external knowledge. The process
-has two phases: indexing and retrieval. During indexing, documents
-are split into chunks, embedded into vectors, and stored in a vector
-database. During retrieval, the user query is embedded and the most
-similar document chunks are fetched. These chunks are then provided
-as context to the LLM when generating its answer.""",
+        LLM responses by connecting them to external knowledge. The process
+        has two phases: indexing and retrieval. During indexing, documents
+        are split into chunks, embedded into vectors, and stored in a vector
+        database. During retrieval, the user query is embedded and the most
+        similar document chunks are fetched. These chunks are then provided
+        as context to the LLM when generating its answer.""",
         metadata={"source": "rag_explainer", "page": 1}
-    ),
+    )
 ]
 
-# Split documents into chunks
+#Now we split the documents into chunks:
 doc_splitter = RecursiveCharacterTextSplitter(
     chunk_size=300,
-    chunk_overlap=50,
+    chunk_overlap=50
 )
 
 chunked_docs = doc_splitter.split_documents(raw_documents)
@@ -142,20 +142,20 @@ print(f"After chunking: {len(chunked_docs)} chunks")
 print()
 
 for i, chunk in enumerate(chunked_docs):
-    print(f"Chunk {i+1}:")
-    print(f"  Source: {chunk.metadata['source']}")
-    print(f"  Length: {len(chunk.page_content)} chars")
-    print(f"  Content: {chunk.page_content[:80]}...")
+    print(f"Chunk {i+1}: ")
+    print(f"Source: {chunk.metadata['source']}")
+    print(f"Length: {len(chunk.page_content)} chars")
+    print(f"Content: {chunk.page_content[:80]}...")
     print()
 
-# Store chunks in ChromaDB
+#Storing chunks in ChromaDB
 import shutil
-import os
+import os 
 if os.path.exists("./chroma_db_chunks"):
-    shutil.rmtree("./chroma_db_chunks")
+    shutil.rmtree("./chroma_db_chunks")    
 
 print("Storing chunks in ChromaDB...")
-time.sleep(1)
+time.sleep(2)
 
 embeddings_model = GoogleGenerativeAIEmbeddings(
     model="models/gemini-embedding-001"
@@ -170,7 +170,7 @@ vectorstore = Chroma.from_documents(
 
 time.sleep(2)
 
-# Search the chunked store
+#Searching the chunked store:
 query = "How does RAG work?"
 results = vectorstore.similarity_search(query, k=2)
 print(f"Query: '{query}'")
