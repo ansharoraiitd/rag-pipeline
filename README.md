@@ -11,7 +11,7 @@ and generates accurate, grounded answers.
 - [x] Day 1: Embeddings — semantic search foundation
 - [x] Day 2: ChromaDB — storing and searching embeddings
 - [x] Day 3: Chunking — splitting documents intelligently
-- [ ] Day 4: Full RAG chain — retrieval + generation
+- [x] Day 4: Full RAG chain — retrieval + generation
 - [ ] Day 5: Chat with documents — complete app
 
 ## Tech stack
